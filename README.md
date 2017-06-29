@@ -15,6 +15,14 @@ You can install this library using cocoapods or manually.
     
 
 # Usage
+
+0. NSMicrophoneUsageDescription : (It is mandatory from apple to add microphone usage description in your pList, else    
+                                       your application will crash)
+
+                Key        :  Privacy - Microphone Usage Description    
+                Value      :  $(PRODUCT_NAME) microphone use
+                
+                
 1. Create an instance of MPAudioRecorder like this
     /// MPAudioRecorder, assigning delegate is mandatory.
     
