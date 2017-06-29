@@ -38,10 +38,10 @@ class MPAudioRecorder: NSObject
 {
 
     /// AVAudio session
-    public var recordingSession     : AVAudioSession!
+    private var recordingSession     : AVAudioSession!
     
     /// AVAudio recorder
-    public var audioRecorder        : AVAudioRecorder!
+    private var audioRecorder        : AVAudioRecorder!
     
     /// Settings, audio settings for a recorded audio
     public var audioSettings        : [String : Int]?
