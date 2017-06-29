@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = 'MPAudioRecorder'
   s.version          = '0.1.0'
-  s.summary          = 'By far the most fantastic view I have seen in my entire life. No joke.'
+  s.summary          = 'Adding Audio recording feature in iOS app is never been that easy'
 
   s.description      = <<-DESC
-This is a library with which you can perform an *Audio Recording* into your application, it is fully customizable, you can pass Audio settings in it. 
+This is a library with which you can perform an *Audio Recording* into your application, it is fully customizable, you can pass Audio settings in it.  Merging and split features are coming soon.
                        DESC
 
   s.homepage         = 'https://github.com/manish-1988/MPAudioRecorder'
