@@ -49,20 +49,21 @@ Copy the <MPAudioRecorder> folder from the example included in the repository.
             # func audioRecorderEndInterruption(_ recorder: AVAudioRecorder, withOptions flags: Int)
             
 6. Other properties which user can use.
-    /// Settings, audio settings for a recorded audio
-    public var audioSettings        : [String : Int]?
+
+                /// Settings, audio settings for a recorded audio
+                        public var audioSettings        : [String : Int]?
     
-    /// File name, Name of the audio file with which user wants to save it
-    public var audioFileName: String?
+                /// File name, Name of the audio file with which user wants to save it
+                        public var audioFileName: String?
     
-    /// Custom url if any user wants to save the recorded Audio file at specific location
-    public var customPath: String?
+                /// Custom url if any user wants to save the recorded Audio file at specific location
+                        public var customPath: String?
     
-    /// If user wants the recorded audio filed to be saved to the iPhone's library # Coming soon.
-    public var shouldSaveToLibrary: Bool = false
+                /// If user wants the recorded audio filed to be saved to the iPhone's library # Coming soon.
+                        public var shouldSaveToLibrary: Bool = false
     
-    /// If user want delegates methods to be implemented in their class
-    public var delegateMPAR: MPAudioRecorderDelegate?
+                /// If user want delegates methods to be implemented in their class
+                        public var delegateMPAR: MPAudioRecorderDelegate?
 
 
 
@@ -72,7 +73,7 @@ Copy the <MPAudioRecorder> folder from the example included in the repository.
  3. Overlap Audio files
 
  # Gif of sample
- 
+ ![ScreenShot](https://raw.githubusercontent.com/manish-1988/MPAudioRecorder/master/MPAudioRecorder_Sample.gif)
  
 If you hava any suggestions or scope of improvement please suggest as it is my first cocoapods library.
 
