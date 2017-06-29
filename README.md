@@ -48,22 +48,28 @@ Copy the <MPAudioRecorder> folder from the example included in the repository.
             /* Currently the only flag is AVAudioSessionInterruptionFlags_ShouldResume. */
             # func audioRecorderEndInterruption(_ recorder: AVAudioRecorder, withOptions flags: Int)
             
+
 6. Other properties which user can use.
 
-                /// Settings, audio settings for a recorded audio
-                        public var audioSettings        : [String : Int]?
+                /// Settings, audio settings for a recorded audio.
+                
+                public var audioSettings        : [String : Int]?
     
-                /// File name, Name of the audio file with which user wants to save it
-                        public var audioFileName: String?
+                /// File name, Name of the audio file with which user wants to save it.
+                
+                public var audioFileName: String?
     
-                /// Custom url if any user wants to save the recorded Audio file at specific location
-                        public var customPath: String?
+                /// Custom url if any user wants to save the recorded Audio file at specific location.
+                
+                public var customPath: String?
     
                 /// If user wants the recorded audio filed to be saved to the iPhone's library # Coming soon.
-                        public var shouldSaveToLibrary: Bool = false
+                
+                public var shouldSaveToLibrary: Bool = false
     
-                /// If user want delegates methods to be implemented in their class
-                        public var delegateMPAR: MPAudioRecorderDelegate?
+                /// If user want delegates methods to be implemented in their class.
+                
+                public var delegateMPAR: MPAudioRecorderDelegate?
 
 
 
