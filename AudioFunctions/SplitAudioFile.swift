@@ -2,8 +2,8 @@
 //  SplitAudioFile.swift
 //  AudioFunctions
 //
-//  Created by qmcpl on 6/19/17.
-//  Copyright © 2017 qmcpl. All rights reserved.
+//  Created by iDevelopers on 6/19/17.
+//  Copyright © 2017 iDevelopers. All rights reserved.
 //
 
 import Foundation

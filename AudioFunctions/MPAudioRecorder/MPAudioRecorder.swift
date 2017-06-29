@@ -3,7 +3,7 @@
 //  AudioFunctions
 //
 //  Created by MANISH_iOS on 28/06/17.
-//  Copyright © 2017 qmcpl. All rights reserved.
+//  Copyright © 2017 iDevelopers. All rights reserved.
 //
 
 //MARK:- Protocol
