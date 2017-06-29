@@ -6,9 +6,7 @@ This is a library with which you can perform an *Audio Recording* into your appl
 You can install this library using cocoapods or manually.
 
 1. > Cocoapods
-    - pod 'MPAudioRecorder'
-    
-    
+    - pod 'MPAudioRecorder', '~> 0.1'
     
 2. > Manually
     - Copy the <MPAudioRecorder> folder from the example included in the repository.
@@ -30,6 +28,8 @@ You can install this library using cocoapods or manually.
         mpRecorder.delegateMPAR  = self // Imp
     }
     ```
+    If required do import AVFoundation in your view controller.
+    
 3. To start the recording you can use a function and call it through the MPAudioRecorder instance you have created like this:-
 
         mpRecorder.startAudioRecording()
