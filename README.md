@@ -81,7 +81,7 @@ You can install this library using cocoapods or manually.
             public var customPath: String?
 
 
-            /// If user wants the recorded audio filed to be saved to the iPhone's library # Coming soon.
+            /// If the user wants the recorded audio filed to be saved to the iPhone's library # Coming soon.
 
             public var shouldSaveToLibrary: Bool = false
 
