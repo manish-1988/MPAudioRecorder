@@ -100,7 +100,7 @@ You can install this library using cocoapods or manually.
  # Gif of sample
  ![ScreenShot](https://raw.githubusercontent.com/manish-1988/MPAudioRecorder/master/MPAudioRecorder_Sample.gif)
  
-If you hava any suggestions or scope of improvement please suggest as it is my first cocoapods library.
+If you have any suggestions or see a scope of improvement please suggest as it is my first cocoapods library.
 
 Thanks
 
