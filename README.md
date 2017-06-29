@@ -5,7 +5,7 @@ This is a library with which you can perform an *Audio Recording* into your appl
 # Installation
 You can install this library using cocoapods or manually.
 
-1. > Cocoapods
+1. > Cocoapods (If required or if there is any error on pod installation, first try to do pod setup or pod repo update)
     - pod 'MPAudioRecorder'
     - pod 'MPAudioRecorder', '~> 0.1' (For a stable swift 3.0 version)
     
