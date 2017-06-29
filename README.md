@@ -8,8 +8,12 @@ You can install this library using cocoapods or manually.
 1. > Cocoapods
     - pod 'MPAudioRecorder'
     
+    
+    
 2. > Manually
     - Copy the <MPAudioRecorder> folder from the example included in the repository.
+    
+    
 
 # Usage
 1. Create an instance of MPAudioRecorder like this
@@ -27,11 +31,13 @@ You can install this library using cocoapods or manually.
     }
     ```
 3. To start the recording you can use a function and call it through the MPAudioRecorder instance you have created like this:-
-    mpRecorder.startAudioRecording()
+
+        mpRecorder.startAudioRecording()
     
 
 4. To stop the recording you can use a function and call it through the MPAudioRecorder instance you have created like this:-
-    mpRecorder.stopAudioRecording()
+   
+       mpRecorder.stopAudioRecording()
     
 5. ### Delegates
         You can implement all the delegates as per requirement with few mandatory delegate implementation.
