@@ -15,12 +15,10 @@
     @objc optional func audioRecorderBeginInterruption(_ recorder: AVAudioRecorder)
     @objc optional func audioRecorderEndInterruption(_ recorder: AVAudioRecorder, withOptions flags: Int)
     
-    
     /// This will invoke after audio session permission request response comes.
     ///
     /// - Parameter granted: Granted will be true if the permission is granted else it will be false.
     @objc optional func audioSessionPermission(granted: Bool)
-    
     
     /// This function will be called if there is a failure
     ///
@@ -36,7 +34,6 @@ import AVFoundation
 /// This class is responsible for recording.
 class MPAudioRecorder: NSObject
 {
-
     /// AVAudio session
     private var recordingSession     : AVAudioSession!
     
@@ -75,7 +72,7 @@ class MPAudioRecorder: NSObject
         {
             unowned let unownedSelf = self // To handle unseen nil of class
             settingUpRecorder(completionHandler:
-            { (setupComplete) in
+                                { (setupComplete) in
                 if setupComplete == true
                 {
                     do
@@ -111,7 +108,7 @@ class MPAudioRecorder: NSObject
             {
                 audioRecorder.stop()
             }
-                audioRecorder = nil
+            audioRecorder = nil
         }
     }
     
@@ -139,22 +136,22 @@ class MPAudioRecorder: NSObject
     
     /// Put audio settings, configure AVAudioRecorder, destination file path
     private func settingUpRecorder(completionHandler :@escaping (_ success : Bool) -> Void)
-
+    
     {
-            do // Setting up the recorder
-            {
-                audioRecorder = try AVAudioRecorder(url: MPAudioSessionConfig.getDirectoryURLForFileName(fName: audioFileName != nil ? audioFileName! : "recordedAudioFile")!,
-                                                    settings: audioSettings == nil ? MPAudioSessionConfig.getDefaultAudioSettings() : audioSettings!)
-                audioRecorder.delegate = self
-                audioRecorder.prepareToRecord()
-                completionHandler(true)
-            }
-            catch
-            {
-                delegateMPAR?.audioRecorderFailed(errorMessage: "Unable to initialise AVAudioRecorder")
-                clearAudioRecorder()
-                completionHandler(false)
-            }
+        do // Setting up the recorder
+        {
+            audioRecorder = try AVAudioRecorder(url: MPAudioSessionConfig.getDirectoryURLForFileName(fName: audioFileName != nil ? audioFileName! : "recordedAudioFile")!,
+                                                settings: audioSettings == nil ? MPAudioSessionConfig.getDefaultAudioSettings() : audioSettings!)
+            audioRecorder.delegate = self
+            audioRecorder.prepareToRecord()
+            completionHandler(true)
+        }
+        catch
+        {
+            delegateMPAR?.audioRecorderFailed(errorMessage: "Unable to initialise AVAudioRecorder")
+            clearAudioRecorder()
+            completionHandler(false)
+        }
     }
 }
 
@@ -191,7 +188,7 @@ extension MPAudioRecorder: AVAudioRecorderDelegate
             delegateMPAR?.audioRecorderBeginInterruption!(recorder)
         }
     }
-
+    
     /* audioRecorderEndInterruption:withOptions: is called when the audio session interruption has ended and this recorder had been interrupted while recording. */
     /* Currently the only flag is AVAudioSessionInterruptionFlags_ShouldResume. */
     func audioRecorderEndInterruption(_ recorder: AVAudioRecorder, withOptions flags: Int)

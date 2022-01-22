@@ -6,22 +6,17 @@
 //  Copyright © 2017 iDevelopers. All rights reserved.
 //
 
-
-
 import UIKit
 import AVFoundation
-
 
 /// This class will be responsible for configuring the Audio session
 class MPAudioSessionConfig: NSObject
 {
     /// AVAudio session
     public var mpAudioSession     : AVAudioSession!
-
+    
     /// Singleton object for MPAudioSessionConfig
     static let shared = MPAudioSessionConfig()
-
-    
     
     /// Initialising the AVAudioSession for recording
     ///
@@ -33,20 +28,20 @@ class MPAudioSessionConfig: NSObject
             mpAudioSession = AVAudioSession.sharedInstance()
             do {
                 
-                try mpAudioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                try mpAudioSession.setCategory(AVAudioSession.Category.playAndRecord)
                 try mpAudioSession.setActive(true)
                 
                 mpAudioSession.requestRecordPermission()
-                    { [unowned self] allowed in
+                { [unowned self] allowed in
                     DispatchQueue.main.async
+                    {
+                        if allowed
                         {
-                            if allowed
-                            {
-                                completionHandlerWithGrantPermission(true, self.mpAudioSession)
-                            } else
-                            {
-                                completionHandlerWithGrantPermission(false, nil)
-                            }
+                            completionHandlerWithGrantPermission(true, self.mpAudioSession)
+                        } else
+                        {
+                            completionHandlerWithGrantPermission(false, nil)
+                        }
                     }
                 }
             } catch
@@ -56,7 +51,6 @@ class MPAudioSessionConfig: NSObject
         }
     }
     
-    
     class func getDirectoryURLForFileName(fName : String) -> URL?
     {
         let fileManager = FileManager.default
@@ -65,14 +59,14 @@ class MPAudioSessionConfig: NSObject
         let soundURL = documentDirectory.appendingPathComponent("\(fName).m4a")
         do
         {
-            try  FileManager.default.removeItem(at: soundURL)
+            try FileManager.default.removeItem(at: soundURL)
         } catch let error as NSError
         {
             print(error.debugDescription)
         }
         return soundURL as URL?
     }
-
+    
     class func getDefaultAudioSettings() -> [String : Int]
     {
         return [

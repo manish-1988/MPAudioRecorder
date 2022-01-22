@@ -6,11 +6,10 @@
 //  Copyright © 2017 iDevelopers. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import AVFoundation
 
-class MergeAudioFiles: UIViewController , AVAudioRecorderDelegate, AVAudioPlayerDelegate{
+class MergeAudioFiles: UIViewController , AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     
     @IBOutlet weak var btnRecording: UIButton!
     
@@ -24,11 +23,10 @@ class MergeAudioFiles: UIViewController , AVAudioRecorderDelegate, AVAudioPlayer
     
     @IBOutlet weak var btnMerge: UIButton!
     
-    
     var recordingSession : AVAudioSession!
     var audioRecorder    :AVAudioRecorder!
     var settings         = [String : Int]()
-     var fileURL1:URL!
+    var fileURL1:URL!
     var fileURL2:URL!
     var fileDestinationUrl:URL!
     var isRecord : Bool = true
@@ -38,15 +36,15 @@ class MergeAudioFiles: UIViewController , AVAudioRecorderDelegate, AVAudioPlayer
         super.viewDidLoad()
         
         //PREVIOUS Recording
-         self.audioPlayer = try! AVAudioPlayer(contentsOf: fileURL1!)
-           lblEnd.text = "\(audioPlayer.duration)"
+        self.audioPlayer = try! AVAudioPlayer(contentsOf: fileURL1!)
+        lblEnd.text = "\(audioPlayer.duration)"
         //   durationFile1 = CMTimeMakeWithSeconds(<#T##seconds: Float64##Float64#>, <#T##preferredTimescale: Int32##Int32#>)(audioPlayer.duration)
         //RECORD
         recordingSession = AVAudioSession.sharedInstance()
         do {
-            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try recordingSession.setCategory(AVAudioSession.Category.playAndRecord)
             try recordingSession.setActive(true)
-            recordingSession.requestRecordPermission() { [unowned self] allowed in
+            recordingSession.requestRecordPermission() { allowed in
                 DispatchQueue.main.async {
                     if allowed {
                         print("Allow")
@@ -68,8 +66,6 @@ class MergeAudioFiles: UIViewController , AVAudioRecorderDelegate, AVAudioPlayer
             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
         ]
     }
-    
-    
     
     func directoryURL() -> NSURL? {
         let fileManager = FileManager.default
@@ -98,7 +94,8 @@ class MergeAudioFiles: UIViewController , AVAudioRecorderDelegate, AVAudioPlayer
         do {
             try audioSession.setActive(true)
             audioRecorder.record()
-        } catch {
+        } catch let error as NSError {
+            print(error.debugDescription)
         }
     }
     
@@ -119,67 +116,50 @@ class MergeAudioFiles: UIViewController , AVAudioRecorderDelegate, AVAudioPlayer
         }
     }
     
-    
-    
     //Mark:Action
     @IBAction func click_Recording(_ sender: Any) {
         if isRecord == true {
             
             isRecord = false
-            self.btnRecording.setTitle("Stop Recording", for: UIControlState.normal)
+            self.btnRecording.setTitle("Stop Recording", for: .normal)
             self.btnRecording.backgroundColor = UIColor(red: 119.0/255.0, green: 119.0/255.0, blue: 119.0/255.0, alpha: 1.0)
             self.startRecording()
             
         } else {
             isRecord = true
-            self.btnRecording.setTitle("Start 2nd Record", for: UIControlState.normal)
+            self.btnRecording.setTitle("Start 2nd Record", for: .normal)
             self.btnRecording.backgroundColor = UIColor(red: 221.0/255.0, green: 27.0/255.0, blue: 50.0/255.0, alpha: 1.0)
             self.finishRecording(success: true)
-            
         }
     }
     
-    
-    
-   
-    
-
-    
-   
     @IBAction func click_Play(_ sender: Any) {
-       
         
-            self.audioPlayer.prepareToPlay()
-            self.audioPlayer.delegate = self
-            self.audioPlayer.play()
-            
-            audioSlider.maximumValue = Float(audioPlayer.duration)
-            lblEnd.text = "\(audioPlayer.duration)"
-            Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(playerTimeInterval), userInfo: nil, repeats: true)
+        self.audioPlayer.prepareToPlay()
+        self.audioPlayer.delegate = self
+        self.audioPlayer.play()
         
+        audioSlider.maximumValue = Float(audioPlayer.duration)
+        lblEnd.text = "\(audioPlayer.duration)"
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(playerTimeInterval), userInfo: nil, repeats: true)
     }
     
-    
-    func playerTimeInterval()
+    @objc func playerTimeInterval()
     {
         audioSlider.value = Float(audioPlayer.currentTime)
-        
         lblStart.text = "\(audioSlider.value)"
     }
     
-    
-    
     @IBAction func click_Merge(_ sender: Any) {
         
-    self.playmerge(audio1: fileURL1! as NSURL, audio2: fileURL2 as NSURL)
+        self.playmerge(audio1: fileURL1! as NSURL, audio2: fileURL2 as NSURL)
     }
-    
     
     func playmerge(audio1: NSURL, audio2:  NSURL)
     {
         let composition = AVMutableComposition()
-        let compositionAudioTrack1:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: CMPersistentTrackID())
-        let compositionAudioTrack2:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: CMPersistentTrackID())
+        let compositionAudioTrack1:AVMutableCompositionTrack? = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID())
+        let compositionAudioTrack2:AVMutableCompositionTrack? = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID())
         
         let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
         self.fileDestinationUrl = documentDirectoryURL.appendingPathComponent("resultmerge.m4a")! as URL
@@ -195,23 +175,20 @@ class MergeAudioFiles: UIViewController , AVAudioRecorderDelegate, AVAudioPlayer
             {
                 NSLog("Error: \(error)")
             }
-            
-            
         }
         else
         {
             do
             {
                 try filemanager.removeItem(at: self.fileDestinationUrl)
-                let alert = UIAlertController(title: "Alert", message: "File Merged Successfuly. Click on play to check", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                let alert = UIAlertController(title: "Alert", message: "File Merged Successfuly. Click on play to check", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }
             catch let error as NSError
             {
                 NSLog("Error: \(error)")
             }
-            
         }
         
         let url1 = audio1
@@ -220,8 +197,8 @@ class MergeAudioFiles: UIViewController , AVAudioRecorderDelegate, AVAudioPlayer
         let avAsset1 = AVURLAsset(url: url1 as URL, options: nil)
         let avAsset2 = AVURLAsset(url: url2 as URL, options: nil)
         
-        var tracks1 = avAsset1.tracks(withMediaType: AVMediaTypeAudio)
-        var tracks2 = avAsset2.tracks(withMediaType: AVMediaTypeAudio)
+        let tracks1 = avAsset1.tracks(withMediaType: .audio)
+        let tracks2 = avAsset2.tracks(withMediaType: .audio)
         
         let assetTrack1:AVAssetTrack = tracks1[0]
         let assetTrack2:AVAssetTrack = tracks2[0]
@@ -232,18 +209,17 @@ class MergeAudioFiles: UIViewController , AVAudioRecorderDelegate, AVAudioPlayer
         print("duration1 = \(duration1)")
         print("duration2 = \(duration2)")
         
-        let timeRange1 = CMTimeRangeMake(kCMTimeZero, duration1)
-        let timeRange2 = CMTimeRangeMake(kCMTimeZero, duration2)
+        let timeRange1 = CMTimeRangeMake(start: .zero, duration: duration1)
+        let timeRange2 = CMTimeRangeMake(start: .zero, duration: duration2)
         
         print("timeRange1 = \(timeRange1)")
         print("timeRange2 = \(timeRange2)")
         
-        
         do
         {
-            try compositionAudioTrack1.insertTimeRange(timeRange1, of: assetTrack1, at: kCMTimeZero)
-            let nextClipStartTime = CMTimeAdd(kCMTimeZero, timeRange1.duration)
-            try compositionAudioTrack2.insertTimeRange(timeRange2, of: assetTrack2, at: nextClipStartTime)
+            try compositionAudioTrack1?.insertTimeRange(timeRange1, of: assetTrack1, at: .zero)
+            let nextClipStartTime = CMTimeAdd(.zero, timeRange1.duration)
+            try compositionAudioTrack2?.insertTimeRange(timeRange2, of: assetTrack2, at: nextClipStartTime)
         }
         catch
         {
@@ -251,35 +227,32 @@ class MergeAudioFiles: UIViewController , AVAudioRecorderDelegate, AVAudioPlayer
         }
         
         let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetAppleM4A)
-        assetExport?.outputFileType = AVFileTypeAppleM4A
+        assetExport?.outputFileType = .m4a
         assetExport?.outputURL = fileDestinationUrl
-        assetExport?.exportAsynchronously(completionHandler:
+        assetExport?.exportAsynchronously(completionHandler: {
+            
+            switch assetExport!.status
             {
-                switch assetExport!.status
-                {
-                case AVAssetExportSessionStatus.failed:
+                case .failed:
                     print("failed \(String(describing: assetExport?.error))")
-                case AVAssetExportSessionStatus.cancelled:
+                case .cancelled:
                     print("cancelled \(String(describing: assetExport?.error))")
-                case AVAssetExportSessionStatus.unknown:
+                case .unknown:
                     print("unknown\(String(describing: assetExport?.error))")
-                case AVAssetExportSessionStatus.waiting:
+                case .waiting:
                     print("waiting\(String(describing: assetExport?.error))")
-                case AVAssetExportSessionStatus.exporting:
+                case .exporting:
                     print("exporting\(String(describing: assetExport?.error))")
                 default:
                     print("complete")
-                }
-                
-                do
-                {
-                    self.audioPlayer = try! AVAudioPlayer(contentsOf:self.fileDestinationUrl)
-                }
-                catch let error as NSError
-                {
-                    print(error)
-                }
+            }
+            
+            do {
+                self.audioPlayer = try AVAudioPlayer(contentsOf:self.fileDestinationUrl)
+            }
+            catch let error as NSError {
+                print(error.debugDescription)
+            }
         })
     }
-    
 }

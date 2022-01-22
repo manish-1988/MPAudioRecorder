@@ -11,7 +11,6 @@ import AVFoundation
 
 class ViewController: UIViewController
 {
-
     @IBOutlet weak var btnAudioRecord: UIButton!
     @IBOutlet weak var audioSlider: UISlider!
     @IBOutlet weak var lblStartTime: UILabel!
@@ -32,14 +31,14 @@ class ViewController: UIViewController
         super.viewDidLoad()
         mpRecorder.delegateMPAR  = self
     }
-
+    
     //MARK:- Custom functions
-    func playerTimeInterval()
+    @objc func playerTimeInterval()
     {
         audioSlider.value = Float(audioPlayer.currentTime)
         lblStartTime.text = "\(Int(audioSlider.value))"
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         if segue.identifier == "SplitAudioFile"
@@ -52,12 +51,11 @@ class ViewController: UIViewController
             destinationVC.fileURL1 = audioFileURL
         }
     }
-
+    
     //MARK:- IBActions
     @IBAction func clicki_ToOpenSplitView(_ sender: Any)
     {
-        
-         //self.performSegue(withIdentifier: "SplitAudioFile", sender: nil)
+        //self.performSegue(withIdentifier: "SplitAudioFile", sender: nil)
     }
     
     @IBAction func click_AudioRecord(_ sender: Any)
@@ -65,13 +63,13 @@ class ViewController: UIViewController
         if isRecord == true
         {
             isRecord = false
-            self.btnAudioRecord.setTitle("Stop Recording", for: UIControlState.normal)
+            self.btnAudioRecord.setTitle("Stop Recording", for: .normal)
             self.btnAudioRecord.backgroundColor = UIColor(red: 119.0/255.0, green: 119.0/255.0, blue: 119.0/255.0, alpha: 1.0)
             mpRecorder.startAudioRecording()
         } else
         {
             isRecord = true
-            self.btnAudioRecord.setTitle("Start Record", for: UIControlState.normal)
+            self.btnAudioRecord.setTitle("Start Record", for: .normal)
             self.btnAudioRecord.backgroundColor = UIColor(red: 221.0/255.0, green: 27.0/255.0, blue: 50.0/255.0, alpha: 1.0)
             mpRecorder.stopAudioRecording()
         }
@@ -79,7 +77,6 @@ class ViewController: UIViewController
     
     @IBAction func doPlay(_ sender: Any)
     {
-        
         if audioFileURL != nil
         {
             self.audioPlayer = try! AVAudioPlayer(contentsOf: audioFileURL!)
@@ -93,7 +90,7 @@ class ViewController: UIViewController
             self.showBasicAlert(title: "No recording", message: "First record an audio then press play recording button")
         }
     }
-
+    
     @IBAction func click_ToOpenMergeView(_ sender: Any)
     {
         //self.performSegue(withIdentifier: "MergeAudioFiles", sender: nil)
@@ -113,26 +110,28 @@ extension ViewController: MPAudioRecorderDelegate
         print("\(recorder) \n /n \(flag)")
         audioFileURL = recorder.url
         self.showBasicAlert(title: "\(flag == true ? "Success" : "Failed")", message: "Audio has been recorded at \(audioFileURL!)")
-        
     }
+    
     func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?)
     {
         print("\(recorder) \n /n \(String(describing: error?.localizedDescription))")
     }
+    
     func audioRecorderBeginInterruption(_ recorder: AVAudioRecorder)
     {
         print("\(recorder)")
     }
+    
     func audioRecorderEndInterruption(_ recorder: AVAudioRecorder, withOptions flags: Int)
     {
         print("\(recorder) \n /n \(flags)")
     }
+    
     func audioSessionPermission(granted: Bool)
     {
         print(granted)
     }
 }
-
 
 // MARK: - Extension to show alert
 extension UIViewController
